@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban App</title>
+  <!-- Google Fonts "Noto Sans Arabic" And "Open Sans" -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/all.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="dark">
+  <!-- Loading Page -->
+  <div class="loading-overlay" id="loading_overlay">
+    <div class="logo-ico"></div>
+  </div>
+  <!-- Side Box -->
+  <div class="side-box">
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-ico"></div>
+      <h1>Kanban</h1>
+    </div>
+    <!-- Boards List -->
+    <ul class="boards-list" id="boards_list">
+      <li class="boards-num" id="boards_num"><span>All Boards</span>0</li>
+      <li class="no-data-msg">You Have No Boards, You Should Create One</li>
+    </ul>
+    <!-- Lower Options Box -->
+    <div class="lower-opt-box">
+      <span class="create-board-btn btn-style btn-wave-effect" id="create_board_btn">Create New Board</span>
+      <!-- Switch Theme Box -->
+      <div class="switch-theme-box">
+        <i class="fa-solid fa-sun sun-ico"></i>
+        <input type="checkbox" id="change_theme">
+        <i class="fa-solid fa-moon moon-ico"></i>
+      </div>
+    </div>
+  </div>
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="main-content-header">
+      <span class="board-name" id="board_name">Board Name</span>
+      <span class="btn-style add-task-btn btn-wave-effect" id="add_task_btn">Add New Task</span>
+    </header>
+    <!-- Board Content -->
+    <div class="board-content" id="main_board_content">
+      <span class="no-data-msg">No Active Board :(</span>
+      <!-- And New Column -->
+      <div class="add-col-big-btn btn-wave-effect" id="add_col_big_btn">New Column</div>
+    </div>
+  </div>
+  <!-- Add New Board Popup -->
+  <div class="overlay dn-inp" id="board_overlay">
+    <div class="popup board-popup">
+      <span class="popup-header switch-el">Add New Board</span>
+      <span class="popup-header update-mode-el">Update Board Name</span>
+      <form id="board_form">
+        <input type="text" name="board_name" placeholder="Board Name..." autocomplete="off">
+        <input type="submit" class="switch-el" value="Create">
+        <input type="submit" class="update-mode-el" value="Update">
+      </form>
+    </div>
+  </div>
+  <!-- Add New Column Popup -->
+  <div class="overlay dn-inp" id="column_overlay">
+    <div class="popup column-popup">
+      <span class="popup-header switch-el">Add New Column</span>
+      <span class="popup-header update-mode-el">Update Column</span>
+      <form id="column_form">
+        <input type="text" name="column_name" placeholder="Column Name..." autocomplete="off">
+        <!-- Column Status Color Box -->
+        <label>Column Status Color</label>
+        <div class="col-status-color-box">
+          <div class="colors-box" id="colors_box"></div>
+          <input type="color" name="color_inp">
+        </div>
+        <p class="color-box-note">Right Click To Delete The Color</p>
+        <!-- Submit Buttons -->
+        <input type="submit" class="switch-el" value="Create">
+        <input type="submit" class="update-mode-el" value="Update">
+      </form>
+    </div>
+  </div>
+  <!-- Add New Task Popup -->
+  <div class="overlay dn-inp" id="tasks_overlay">
+    <div class="popup tasks-popup">
+      <span class="popup-header switch-el">Add New Task</span>
+      <span class="popup-header update-mode-el">Update Task Data</span>
+      <form id="task_form">
+        <!-- Inputs -->
+        <label for="task_title_inp">Title</label>
+        <input type="text" id="task_title_inp" placeholder="e.g. Take coffee break" autocomplete="off">
+        <label for="task_des_inp">Description</label>
+        <textarea type="text" id="task_des_inp" placeholder="e.g. It's always good to take a break. This 15 minutes break will recharge the batteries a little." autocomplete="off"></textarea>
+        <!-- Subtasks Box -->
+        <label>Subtasks</label>
+        <ul class="subtasks-box" id="subtasks_box">
+          <!-- Subtask -->
+          <li class="subtask-li">
+            <input type="text" data-checked="no" placeholder="e.g. Make coffee">
+            <i class="fa-solid fa-xmark del-task"></i>
+          </li>
+          <!-- Subtask -->
+          <li class="subtask-li">
+            <input type="text" data-checked="no" placeholder="e.g. Drink coffee & smile">
+            <i class="fa-solid fa-xmark del-task"></i>
+          </li>
+        </ul>
+        <span class="add-new-subtask" id="add_subtask_btn">Add New Subtask</span>
+        <!-- Status -->
+        <label>Status</label>
+        <select id="status_select_box"></select>
+        <!-- Submit Buttons -->
+        <input type="submit" class="switch-el" value="Create">
+        <input type="submit" class="update-mode-el" value="Update">
+      </form>
+    </div>
+  </div>
+  <!-- View Task Content -->
+  <div class="overlay dn-inp" id="view_task_overlay">
+    <div class="popup view-task-popup" id="view_task_popup">
+      <!-- Task Title Box -->
+      <div class="title-box">
+        <p></p>
+        <div class="opt-btn" id="view_task_opt_btn"></div>
+      </div>
+      <!-- Task Description -->
+      <div class="des-box">
+        <pre class="task-des"></pre>
+        <input type="checkbox" class="read-more-des">
+      </div>
+      <!-- Subtasks Box -->
+      <div class="subtasks-box">
+        <span class="subtasks-num-info"></span>
+        <!-- Subtasks List -->
+        <ul class="subtasks-list"></ul>
+      </div>
+      <!-- Status -->
+      <label>Status</label>
+      <select id="status_select_box_view_task"></select>
+    </div>
+  </div>
+  <!-- Confirm Deleting Popup -->
+  <div class="overlay confirm-del" id="confirm_delete">
+    <div class="popup">
+      <p>Are You Sure ?</p>
+      <div id="confirm_delete_btns">
+        <span class="cancel-del" style="background-color: #607d8b;">Cancel</span>
+        <span class="confirm-del" style="background-color: #ef4437;">Delete</span>
+      </div>
+    </div>
+  </div>
+  <!-- Main Context Menu -->
+  <ul class="cm main-cm" id="main_contextmenu">
+    <li class="edit-cm">Edit</li>
+    <li class="del-cm">Delete</li>
+    <li class="move-to-left">Move To Left</li>
+    <li class="move-to-left">Move To Right</li>
+  </ul>
+  <!-- App Context Menu -->
+  <ul class="cm app-cm" id="app_contextmenu">
+    <li class="big-btn">Big Button <i class="fa-solid fa-eye show-i"></i><i class="fa-solid fa-eye-slash hide-i"></i></li>
+    <li class="side-nav">Side Nav <i class="fa-solid fa-eye-slash hide-i"></i><i class="fa-solid fa-eye show-i"></i></li>
+  </ul>
+  <!-- App Context Menu -->
+  <!-- Js Script -->
+  <script src="./script.js"></script>
+</body>
+</html>
